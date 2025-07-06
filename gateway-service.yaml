@@ -10,39 +10,97 @@ spring:
               predicates:
                 - Path=/api/users/read/id/{id:[0-9]+}
                 - Method=GET
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: userServiceBreaker
+                    fallbackUri: forward:/user-fallback
 
             - id: create_user
               uri: http://localhost:8181
               predicates:
                 - Path=/api/users/create
                 - Method=PUT
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: userServiceBreaker
+                    fallbackUri: forward:/user-fallback
 
             - id: update_user
               uri: http://localhost:8181
               predicates:
                 - Path=/api/users/update/old-id/{id:[0-9]+}
                 - Method=PUT
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: userServiceBreaker
+                    fallbackUri: forward:/user-fallback
 
             - id: delete_user
               uri: http://localhost:8181
               predicates:
                 - Path=/api/users/delete/id/{id:[0-9]+}
                 - Method=DELETE
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: userServiceBreaker
+                    fallbackUri: forward:/user-fallback
 
             - id: read_all_users
               uri: http://localhost:8181
               predicates:
                 - Path=/api/users/findAll
                 - Method=GET
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: userServiceBreaker
+                    fallbackUri: forward:/user-fallback
+
   # Mail Service Routes
             - id: notify_by_email_add_user
               uri: http://localhost:8282
               predicates:
                 - Path=/api/mail/sendAdd/{mail}
                 - Method=GET
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: mailServiceBreaker
+                    fallbackUri: forward:/mail-fallback
 
             - id: notify_by_email_remove_user
               uri: http://localhost:8282
               predicates:
                 - Path=/api/mail/sendRemove/{mail}
                 - Method=GET
+              filters:
+                - name: CircuitBreaker
+                  args:
+                    name: mailServiceBreaker
+                    fallbackUri: forward:/mail-fallback
+
+# CircuitBreaker 
+resilience4j.circuitbreaker:
+  instances:
+    userServiceBreaker:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      failureRateThreshold: 50
+      waitDurationInOpenState: 5s
+    mailServiceBreaker:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      failureRateThreshold: 50
+      waitDurationInOpenState: 5s
+
+resilience4j.timelimiter:
+      configs:
+          default:
+              timeoutDuration: 5s
+              cancelRunningFuture: true
