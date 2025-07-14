@@ -42,6 +42,7 @@ management:
   endpoint:
     env:
       enabled: true  # Явно включить env endpoint
+      show-values: ALWAYS
     health:
       enabled: true
     info:
