@@ -19,7 +19,7 @@ spring:
           autocommit: false
         current_session_context_class: thread
   kafka:
-    bootstrap-servers: localhost:19092
+    bootstrap-servers: 172.18.0.4:19092
     producer:
       client-id: example
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -29,7 +29,7 @@ spring:
   eureka:
     client:
       serviceUrl:
-        defaultZone: http://localhost:8761/eureka/
+        defaultZone: http://172.18.0.6:8761/eureka/
 
   resilience4j.circuitbreaker:
     configs:
