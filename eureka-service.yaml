@@ -3,8 +3,8 @@ eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
-    serviceUrl:
-      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
+    service-url:
+      defaultZone: ${EUREKA_URL:http://appeureka:8761/eureka}
 logging:
   level:
     com.netflix.eureka: OFF
