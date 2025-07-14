@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://172.18.0.2:5432/postgres}
+    url: jdbc:postgresql://localhost:5432/ #${DATABASE_URL:jdbc:postgresql://localhost:5432/postgres}
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
@@ -19,7 +19,7 @@ spring:
           autocommit: false
         current_session_context_class: thread
   kafka:
-    bootstrap-servers: 172.18.0.4:19092
+    bootstrap-servers: localhost:19092
     producer:
       client-id: example
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -29,7 +29,7 @@ spring:
   eureka:
     client:
       serviceUrl:
-        defaultZone: http://172.18.0.6:8761/eureka/
+        defaultZone: http://localhost:8761/eureka/
 
   resilience4j.circuitbreaker:
     configs:
