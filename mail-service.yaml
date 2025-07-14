@@ -33,3 +33,16 @@ spring:
     client:
       service-url:
         defaultZone: ${EUREKA_URL:http://appeureka:8761/eureka}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Разрешить все endpoints
+      base-path: /actuator  # Базовый путь
+  endpoint:
+    env:
+      enabled: true  # Явно включить env endpoint
+    health:
+      enabled: true
+    info:
+      enabled: true
